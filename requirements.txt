@@ -1,0 +1,4 @@
+rich
+bs4
+googlesearch-python
+selenium
