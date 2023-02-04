@@ -105,7 +105,11 @@ if console.input('[yellow]Auto complete (y,n): ').lower() == 'y':
     enable_random_delay = console.input('[yellow]Enable random delay (y,n): ')
     count_of_errors = console.input('[yellow]Count of errors (0 for disable): ')
 
-    get_all(test_start_url,questions_dict,name,conv_boolean[enable_random_delay.lower()],count_of_errors)
+    get_all(test_start_url,
+    questions_dict,
+    name,
+    conv_boolean[enable_random_delay.lower()], 
+    count_of_errors)
 
 else:
     quit()
