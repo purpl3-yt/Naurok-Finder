@@ -2,6 +2,7 @@ from rich.console import Console
 from bs4 import BeautifulSoup
 from auto_complete import *
 from rich import print
+from utils import *
 import googlesearch
 import requests
 import os, sys
@@ -40,6 +41,7 @@ if not do_not_search:
             for result in googlesearch.search(question,lang='ua',num_results=30):
                 if 'naurok' in result and '/test' in result:
                     status.stop()
+                    test_info(BeautifulSoup(requests.get(result,headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0',}).content, 'lxml'))
                     if console.input(f'[green]Found test url: [/green][blue]{result}[/blue]\n[yellow]Skip (y,n): [/yellow]').lower() == 'n':
                         test_url = result
                         find=True
@@ -58,9 +60,9 @@ site = requests.get(test_url,
 
     })
 
-soup = BeautifulSoup(site.content, 'lxml')
+test_soup = BeautifulSoup(site.content, 'lxml')
 
-for a in soup.find_all('a',class_='test-action-button', href=True):
+for a in test_soup.find_all('a',class_='test-action-button', href=True):
     if str(a['href']).endswith('print'):
         print_url = 'https://naurok.com.ua'+a['href']
 
@@ -98,6 +100,7 @@ for div,question_num,key in zip(soup.find_all('div',class_='col-md-11 no-padding
 print('[purple]Answers: ')
 print(questions_dict)
 print('[green]Print url: [/green][blue]'+print_url)
+test_info(test_soup)
 
 if console.input('[yellow]Auto complete (y,n): ').lower() == 'y':
     conv_boolean = {'y':True,'n':False}
